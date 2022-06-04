@@ -5,9 +5,9 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import 'bulma/css/bulma.min.css';
 
 export const CardComp = ({
     itm,
@@ -42,7 +42,7 @@ export const CardComp = ({
 
     return(
         <>
-            <Card sx={{width:320, height:380}} style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:"flex-end"}}>
+            <Card sx={{width:320, height:400, boxShadow: 8}} style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:"flex-end", backgroundColor:'rgb(18, 18, 18)', color:'white', borderRadius:'10px'}}>
                 
                 {/* --------------- --------------- ---------HEADER------ --------------- ---------------  */}
                 <CardHeader
@@ -56,7 +56,7 @@ export const CardComp = ({
                     component="img"
                     image={`${itm.imageURL}`}
                     alt={itm.name}
-                    sx={{width:200}}
+                    sx={{width:200, borderRadius:10}}
                 />
                 {/* --------------- --------------- --------------- --------------- ---------------  */}
 
@@ -65,8 +65,7 @@ export const CardComp = ({
                 {/* --------------- --------------- CARD Content --------------- ---------------  */}
                 <CardContent style={{display:'flex', flexDirection:'column'}}>
                     <div>Price: {itm.price}</div>
-                    <div>Quantity Left: {itm.quantity}</div>
-                </CardContent>
+                    {/* <div>Quantity Left: {itm.quantity}</div> */}
                 {/* --------------- --------------- --------------- ---------------  */}
 
 
@@ -101,6 +100,7 @@ export const CardComp = ({
                     </CardActions>
                 }
                {/* --------------- --------------- --------------- --------------- ---------------  */}
+               </CardContent>
                 
             </Card>
         </>
