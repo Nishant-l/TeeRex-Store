@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import CardActions from '@mui/material/CardActions';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import 'bulma/css/bulma.min.css';
+import { CardComp } from "./Card";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -22,41 +17,46 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const Cart = () => {
     const[items,setItem] = useState([]);
+    const [purchessList, setPurchessList] = useState({})
+    const [totalInCart, setTotalInCart] = useState(0);
+
     React.useEffect(()=>{
         fetch('https://geektrust.s3.ap-southeast-1.amazonaws.com/coding-problems/shopping-cart/catalogue.json')
                     .then(responst => responst.json())
                     .then(data => setItem(data));
     },[]);
 
+    const modifyItemToPurchessList = (id, typeOfOpr) => {
+        const newPurList = {};
+        if(id in purchessList){
+            if(typeOfOpr==='add'){
+                purchessList[id]+=1;
+                setTotalInCart(totalInCart+1)
+            }
+            if(typeOfOpr==='sub'){
+                purchessList[id]-=1;
+                setTotalInCart(totalInCart-1)
+            }
+            setPurchessList(purchessList);
+        }else{
+            purchessList[id]=1;
+            setPurchessList(purchessList);
+            setTotalInCart(totalInCart+1)
+        }
+    }
+
     return(
         <>
+       {console.log(purchessList)}
         <Box sx={{ flexGrow: 1, margin:5}}>
-        <Grid container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        <Grid container spacing={{ xs: 2, md: 4 }} style={{justifyContent:'space-evenly'}}>
             {items.length===0 && <h1>Helloo</h1>}
                 {items.length!==0 && items.map((it)=>(
-                    <Grid item xs={2} sm={4} md={4} key={it.id}>
-                        <Item>
-                            <Card sx={{width:100}}>
-                                <CardHeader/>
-                                <CardMedia
-                                    component="img"
-                                    image={`${it.imageURL}`}
-                                    alt={it.name}
-                                    sx={{width:100}}
-                                />
-                            </Card>
-                            <CardContent>
-                                <div>Name: {it.name}</div>
-                                <div>Type: {it.type}</div>
-                                <div>Price: {it.price}</div>
-                                <div>Color: {it.color}</div>
-                                <div>Gender: {it.gender}</div>
-                                <div>Quantity Left: {it.quantity}</div>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small" className="button is-primary">Learn More</Button>
-                            </CardActions>
-                        </Item>
+                    <Grid item key={it.id}>
+                            <CardComp 
+                                itm = {it}
+                                modifyItemToPurchessList={modifyItemToPurchessList}
+                            />
                     </Grid>
                 ))}
         </Grid>
