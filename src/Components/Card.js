@@ -11,11 +11,13 @@ import 'bulma/css/bulma.min.css';
 
 export const CardComp = ({
     itm,
-    modifyItemToPurchessList
+    modifyItemToPurchessList,
+    purchessList
 }) =>{
 
-    const[isAddToBag, setIsAddedToBag] = useState(false);
-    const[qty,setQty] = useState(0);
+    let q = typeof purchessList[itm.id] === 'number'? purchessList[itm.id] : 0;
+    const[isAddToBag, setIsAddedToBag] = useState((purchessList[itm.id]&&true));
+    const[qty,setQty] = useState(q);
 
     const addToCart = (id) => {
         setQty(1);
@@ -64,8 +66,8 @@ export const CardComp = ({
 
                 {/* --------------- --------------- CARD Content --------------- ---------------  */}
                 <CardContent style={{display:'flex', flexDirection:'column'}}>
-                    <div>Price: {itm.price}</div>
-                    {/* <div>Quantity Left: {itm.quantity}</div> */}
+                    <div>Price: {itm.price}<>{itm.currency==='INR'?' ₹':' $'}</></div>
+                    <div>Gender: {itm.gender}</div>
                 {/* --------------- --------------- --------------- ---------------  */}
 
 
