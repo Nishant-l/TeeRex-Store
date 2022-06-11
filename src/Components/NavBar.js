@@ -38,7 +38,7 @@ export const NavBar = (
             
 
             {/* --------------------------------------------------------SEARCH_BAR------------------------------------------------------------------------- */}
-            {serchState && 
+            {!checkoutState && serchState && 
                     <form onSubmit={searchAction}> 
                         <div style={{width:'40vw', display:'flex'}}>
                             <input value={searchWord} onChange={(e)=>setSearchWord(e.target.value)} className="input is-normal is-dark" type="text" placeholder="Search Heare ..."  />  
@@ -54,7 +54,7 @@ export const NavBar = (
                 <div className="navbar-item">
                     <div className="buttons">
                     {/* ---------------------------------------------SEARCH_BUTTON------------------------------------------------------------------------------------ */}
-                        <button className="button is-info " onClick={() => {
+                        {!checkoutState && <button className="button is-info " onClick={() => {
                             if(serchState===true){
                                 searchItem('all');
                             }
@@ -62,7 +62,7 @@ export const NavBar = (
                         }>
                         { !serchState &&   <SearchIcon fontSize="medium"/>}
                         { serchState &&   <SearchOffIcon fontSize="medium"/>}
-                        </button>
+                        </button>}
                     {/* --------------------------------------------------------------------------------------------------------------------------------- */}
 
                     {/* -------------------------------------------------HOME_PROFILE_BUTTON-------------------------------------------------------------------------------- */}

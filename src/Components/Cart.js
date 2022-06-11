@@ -29,11 +29,11 @@ const Cart = () => {
     }
 
     let cardBodyStyle = {
-        width:'80vw', maxHeight:'100vh', overflow:'scroll'
+       width:'100vw', maxHeight:'85vh', overflow:'scroll'
     }
-    if(!filterState){
+    if(filterState && !checkoutState){
         cardBodyStyle = {
-            width:'100vw', maxHeight:'100vh', overflow:'scroll'
+            width:'80vw', maxHeight:'85vh', overflow:'scroll'
         }
     }
     React.useEffect(()=>{
@@ -99,7 +99,7 @@ const Cart = () => {
 
 {/* ------------------------------------------------------------------------Filter Component-------------------------------------------------------------------------------- */}
            { !checkoutState && filterState && 
-                <div style={{width:'20vw',height:'100vh', borderRadius:'10px', backgroundColor:'black'}} >
+                <div style={{width:'20vw',height:'85vh', borderRadius:'10px', backgroundColor:'black'}} >
                     <div style={{margin:'5%', marginTop:'10%', marginBottom:'10%'}}>
                     
                     </div>
