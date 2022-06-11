@@ -15,35 +15,36 @@ export const CardComp = ({
     purchessList
 }) =>{
 
-    let q = typeof purchessList[itm.id] === 'number'? purchessList[itm.id] : 0;
-    const[isAddToBag, setIsAddedToBag] = useState((purchessList[itm.id]&&true));
+    let q = typeof purchessList[itm.id]?.inBag === 'number'? purchessList[itm.id].inBag : 0;
+    const[isAddToBag, setIsAddedToBag] = useState((purchessList[itm.id]?.inBag>0&&true));
     const[qty,setQty] = useState(q);
 
-    const addToCart = (id) => {
+    const addToCart = (id, itm) => {
         setQty(1);
         setIsAddedToBag(true)
-        modifyItemToPurchessList(id,'add')
+        modifyItemToPurchessList(id,'add', itm)
     }
 
-    const addMore = (id) => {
+    const addMore = (id, itm) => {
         if(itm.quantity>=qty+1){
             setQty(qty+1);
-            modifyItemToPurchessList(id,'add')
+            modifyItemToPurchessList(id,'add', itm)
         }
     }
 
-    const removeAdded = (id) => {
+    const removeAdded = (id, itm) => {
         if(qty-1>=0){
             if(qty-1===0){
                 setIsAddedToBag(false)
             }
             setQty(qty-1);
-            modifyItemToPurchessList(id,'sub')
+            modifyItemToPurchessList(id,'sub', itm)
         }
     }
 
     return(
         <>
+            {/* {console.log(purchessList[itm.id])} */}
             <Card sx={{width:320, height:400, boxShadow: 8}} style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:"flex-end", backgroundColor:'rgb(18, 18, 18)', color:'white', borderRadius:'10px'}}>
                 
                 {/* --------------- --------------- ---------HEADER------ --------------- ---------------  */}
@@ -79,7 +80,7 @@ export const CardComp = ({
                         size="medium"
                         className="button is-primary" 
                         disabled={itm.quantity===qty?true:false}
-                        onClick={()=>addToCart(itm.id)}
+                        onClick={()=>addToCart(itm.id,itm)}
                     >
                         {
                             itm.quantity!==qty?'ADD TO CART ':'Out Of Stock'
@@ -92,11 +93,11 @@ export const CardComp = ({
                     isAddToBag
                         &&
                         <CardActions>
-                    <Button onClick={()=>addMore(itm.id)} disabled={itm.quantity===qty?true:false}>
+                    <Button onClick={()=>addMore(itm.id, itm)} disabled={itm.quantity===qty?true:false}>
                         <AddCircleIcon/>
                     </Button>
                     <div>{qty}</div>
-                    <Button onClick={()=>removeAdded(itm.id)}>
+                    <Button onClick={()=>removeAdded(itm.id, itm)}>
                         <RemoveCircleIcon />
                     </Button>
                     </CardActions>

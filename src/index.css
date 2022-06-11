@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.MuiButtonBase-root:disabled svg{
+  cursor: not-allowed;
+  pointer-events: auto;
+  color: rgb(67, 65, 65);
+}
