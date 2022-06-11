@@ -18,6 +18,15 @@ const Cart = () => {
     const [totalInCart, setTotalInCart] = useState(0);
     const [filterState, setFilterState] = useState(false);
     const [checkoutState, setCheckoutState] = useState(false);
+    const [total, setTotal] = useState(0);
+
+    const countTotal = () => {
+        let t = 0;
+        Object.keys(purchessList).filter((e)=>purchessList[e].inBag>0).map((entry)=>{
+            t+=(purchessList[entry]?.inBag * purchessList[entry]?.price)
+        })
+        setTotal(t);
+    }
 
     let cardBodyStyle = {
         width:'80vw', maxHeight:'100vh', overflow:'scroll'
@@ -37,7 +46,7 @@ const Cart = () => {
     },[]);
 
     const modifyItemToPurchessList = (id, typeOfOpr, item) => {
-        const newPurList = {};
+
         if(id in purchessList){
             if(typeOfOpr==='add'){
                 purchessList[id].inBag+=1;
@@ -48,12 +57,14 @@ const Cart = () => {
                 setTotalInCart(totalInCart-1)
             }
             setPurchessList(purchessList);
+            countTotal();
         }else{
             const newItem = _.cloneDeep(item);
             newItem['inBag'] = 1;
             purchessList[id]=newItem;
             setPurchessList(purchessList);
             setTotalInCart(totalInCart+1)
+            countTotal();
         }
     }
 
@@ -87,7 +98,7 @@ const Cart = () => {
         <div style={{width:'100vw', display:'flex', flexDirection:'row', margin:'1%', marginTop:'2%', minHeight:'110vh'}}>
 
 {/* ------------------------------------------------------------------------Filter Component-------------------------------------------------------------------------------- */}
-           { filterState && 
+           { !checkoutState && filterState && 
                 <div style={{width:'20vw',height:'100vh', borderRadius:'10px', backgroundColor:'black'}} >
                     <div style={{margin:'5%', marginTop:'10%', marginBottom:'10%'}}>
                     
@@ -98,13 +109,13 @@ const Cart = () => {
 
 {/* ----------------------------------------------------------------Flying_filter_Button---------------------------------------------------------------------------------------- */}
             
-            <Fab color="secondary" aria-label="add" onClick={()=>setFilterState(!filterState)} style={{position:'absolute', marginTop:'0vh', marginLeft:'-13px'}}>
+            {!checkoutState && <Fab color="secondary" aria-label="add" onClick={()=>setFilterState(!filterState)} style={{position:'absolute', marginTop:'0vh', marginLeft:'-13px'}}>
                 {!filterState && 
                 <FilterAltIcon />
                  }
                  {filterState && 
                 <FilterAltOffIcon />}
-            </Fab>
+            </Fab>}
 {/* -------------------------------------------------------------------------------------------------------------------------------------------------------- */}
 
 {/* ------------------------------------------------------------------CARD_Holding_body-------------------------------------------------------------------------------------- */}
@@ -133,6 +144,7 @@ const Cart = () => {
                                             itm = {it}
                                             modifyItemToPurchessList={modifyItemToPurchessList}
                                             purchessList={purchessList}
+                                            checkoutState={checkoutState}
                                         />
                                 </Grid>
                             ))}
@@ -140,7 +152,13 @@ const Cart = () => {
 
                     {
                         checkoutState && 
-                        <CheckOut purchessList={purchessList}/>
+                        <CheckOut 
+                            key={12345}
+                            purchessList={purchessList}
+                            modifyItemToPurchessList={modifyItemToPurchessList}
+                            checkoutState={checkoutState}
+                            total={total}
+                        />
                     }
                 </Box>
             </div>
@@ -148,7 +166,7 @@ const Cart = () => {
 
 
         </div>
-        <Footer/>
+        {/* <Footer/> */}
         </>
     )
 }

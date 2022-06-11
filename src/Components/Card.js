@@ -12,7 +12,8 @@ import 'bulma/css/bulma.min.css';
 export const CardComp = ({
     itm,
     modifyItemToPurchessList,
-    purchessList
+    purchessList,
+    checkoutState
 }) =>{
 
     let q = typeof purchessList[itm.id]?.inBag === 'number'? purchessList[itm.id].inBag : 0;
@@ -42,15 +43,34 @@ export const CardComp = ({
         }
     }
 
+    let styleImage = checkoutState ===false ? {
+        width:200, 
+        borderRadius:10
+    }:{
+        width:70, 
+        borderRadius:2
+    }
+
+    let cardStyle = checkoutState === false ?{
+        sx:{width:320, height:400, boxShadow: 8},
+        normal:{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:"flex-end", backgroundColor:'rgb(18, 18, 18)', color:'white', borderRadius:'10px'}
+    }
+    :{
+        sx:{maxWidth:400, minWidth:350 ,boxShadow: 8 },
+        normal:{display:'flex', alignItems:'center', justifyContent:"space-around", textAlign:'initial', backgroundColor:'rgb(18, 18, 18)', color:'white', borderRadius:'10px'}
+    }
+
+    let cardActionStyle = checkoutState===true ? {padding:"0px"} : {};
+
     return(
         <>
             {/* {console.log(purchessList[itm.id])} */}
-            <Card sx={{width:320, height:400, boxShadow: 8}} style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:"flex-end", backgroundColor:'rgb(18, 18, 18)', color:'white', borderRadius:'10px'}}>
+            <Card sx={cardStyle.sx} style={cardStyle.normal}>
                 
                 {/* --------------- --------------- ---------HEADER------ --------------- ---------------  */}
-                <CardHeader
+                {!checkoutState && <CardHeader
                     title={itm.name}
-                />
+                />}
                 {/* --------------- --------------- --------------- --------------- ---------------  */}
 
 
@@ -59,7 +79,7 @@ export const CardComp = ({
                     component="img"
                     image={`${itm.imageURL}`}
                     alt={itm.name}
-                    sx={{width:200, borderRadius:10}}
+                    sx={styleImage}
                 />
                 {/* --------------- --------------- --------------- --------------- ---------------  */}
 
@@ -69,6 +89,12 @@ export const CardComp = ({
                 <CardContent style={{display:'flex', flexDirection:'column'}}>
                     <div>Price: {itm.price}<>{itm.currency==='INR'?' ₹':' $'}</></div>
                     <div>Gender: {itm.gender}</div>
+                    {checkoutState &&
+                     <>
+                        <div>Type: {itm.type}</div>
+                        <div>Color: {itm.color}</div>
+                        <div>Total Cost: {itm.price * qty}</div>
+                    </>}
                 {/* --------------- --------------- --------------- ---------------  */}
 
 
@@ -92,14 +118,15 @@ export const CardComp = ({
                 {
                     isAddToBag
                         &&
-                        <CardActions>
-                    <Button onClick={()=>addMore(itm.id, itm)} disabled={itm.quantity===qty?true:false}>
-                        <AddCircleIcon/>
-                    </Button>
-                    <div>{qty}</div>
-                    <Button onClick={()=>removeAdded(itm.id, itm)}>
-                        <RemoveCircleIcon />
-                    </Button>
+                    <CardActions style={cardActionStyle}>
+                        {checkoutState && <span>Quentity</span>}
+                        <Button onClick={()=>addMore(itm.id, itm)} disabled={itm.quantity===qty?true:false}>
+                            <AddCircleIcon/>
+                        </Button>
+                        <div>{qty}</div>
+                        <Button onClick={()=>removeAdded(itm.id, itm)}>
+                            <RemoveCircleIcon />
+                        </Button>
                     </CardActions>
                 }
                {/* --------------- --------------- --------------- --------------- ---------------  */}
