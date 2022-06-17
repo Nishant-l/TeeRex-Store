@@ -1,5 +1,7 @@
 # TeeRex Store
 
+ [Live Hoesting](https://Nishant-l.github.io/TeeRex-Store)
+
 ![demo](./Assets/1.gif)
 
 A UI, which allows a customer to do the following: 
