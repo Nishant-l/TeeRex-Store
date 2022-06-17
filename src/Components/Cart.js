@@ -9,6 +9,7 @@ import Fab from '@mui/material/Fab';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import {CheckOut} from './CheckOut'
+import { FilterComponent } from "./FilterComponent";
 import _ from 'lodash';
 
 const Cart = () => {
@@ -22,9 +23,9 @@ const Cart = () => {
 
     const countTotal = () => {
         let t = 0;
-        Object.keys(purchessList).filter((e)=>purchessList[e].inBag>0).map((entry)=>{
+        Object.keys(purchessList).filter((e)=>purchessList[e].inBag>0).map((entry)=>
             t+=(purchessList[entry]?.inBag * purchessList[entry]?.price)
-        })
+        )
         setTotal(t);
     }
 
@@ -91,6 +92,8 @@ const Cart = () => {
         searchItem={searchItem}
         togelCheckout={setCheckoutState}
         checkoutState = {checkoutState}
+        itemStore={itemStore}
+        setItems={setItems}
        />
 {/* -------------------------------------------------------------------------------------------------------------------------------------------------------- */}
   
@@ -101,7 +104,7 @@ const Cart = () => {
            { !checkoutState && filterState && 
                 <div style={{width:'20vw',height:'85vh', borderRadius:'10px', backgroundColor:'black'}} >
                     <div style={{margin:'5%', marginTop:'10%', marginBottom:'10%'}}>
-                    
+                        <FilterComponent setItems={setItems} itemStore={itemStore} />
                     </div>
                 </div>
             }
@@ -128,7 +131,10 @@ const Cart = () => {
                         <article className="message is-warning" style={{margin:'auto',marginTop:'10vh', width:'50vw', }}>
                                 <div className="message-body">
                                     <h1>Opps! No Matching Result 🙁 </h1>
-                                    <button className=" button is-danger is-light" style={{marginTop:'2vh'}} onClick={()=>{setItems(itemStore)}}>Clear Search</button>
+                                    <button className=" button is-danger is-light" style={{marginTop:'2vh'}} onClick={()=>{
+                                        setItems(itemStore);
+                                        setFilterState(false)
+                                    }}>Clear Search</button>
                                     <h1 className="title is-1" style={{marginTop:'2vh'}}>¯\_(ツ)_/¯</h1>
                                 </div>
                         </article>
@@ -166,7 +172,7 @@ const Cart = () => {
 
 
         </div>
-        {/* <Footer/> */}
+        <Footer/>
         </>
     )
 }

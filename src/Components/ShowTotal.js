@@ -14,7 +14,7 @@ export const ShowTotal = ({total}) => {
                 <div> {`Discount   :0 ₹`}</div>
                 <Divider sx={{margin:'5px', color:'black'}}/>
                 <div><strong>Total: {total} ₹</strong></div>
-                <div style={{marginTop:'10px' }}><button class="button is-success" style={{width:'100%'}}>Pay</button></div>
+                <div style={{marginTop:'10px' }}><button className="button is-success" style={{width:'100%'}}>Pay</button></div>
                 </>
                 :
                 <>

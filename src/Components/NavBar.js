@@ -12,7 +12,9 @@ export const NavBar = (
         list,
         searchItem,
         togelCheckout,
-        checkoutState
+        checkoutState,
+        itemStore,
+        setItems
     }
 ) => {
 
@@ -73,7 +75,12 @@ export const NavBar = (
                     {/* --------------------------------------------------------------------------------------------------------------------------------- */}
 
                     {/* ----------------------------------------------------CHECKOUT_BUTTON----------------------------------------------------------------------------- */}
-                        <button className="button is-info " onClick={()=>togelCheckout(true)}>
+                        <button className="button is-info " onClick={
+                            ()=>{
+                                togelCheckout(true)
+                                setItems(itemStore);
+                            }
+                        }>
                             <Badge badgeContent={count} color="secondary">
                                     <ShoppingCartIcon fontSize="medium"/>
                             </Badge>
